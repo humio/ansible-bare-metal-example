@@ -13,19 +13,49 @@
 zookeeper_version: 3.4.14
 zookeeper_url: "http://archive.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
 
+# The directory all Zookeeper data is stored at.
+zookeeper_data_dir: "/var/zookeeper"
+
+# The directory all Zookeeper service logs are stored at.
+zookeeper_log_dir: "/var/log/zookeeper"
+
+
+
 ############################################
 #
 # humio.server variables
 #
 
-# the version of Humio to use. a list of versions with
+# The version of Humio to use. A list of versions with
 # their changes can be found in the changelog:
 # https://docs.humio.com/release-notes/
 humio_version: 1.8.5
 
-# the name of the network interface Humio will be listening
+# The name of the network interface Humio will be listening
 # on as displayed in `ifconfig` output
 humio_network_interface: enp0s3
+
+# The URL browsers and log shippers will use to reach the server.
+# This URL is used to create links to the server. By default, we
+# set it to the server's IP address, but ordinarily this will be
+# the domain that points to the load balancer in front of your
+# Humio cluster.
+humio_public_url: "http://{{ ansible_default_ipv4.address }}"
+
+# The base directory Humio data is stored in. If you're on
+# a multi-socket system, two Humio processes will be setup
+# and data will be stored in namespaced directories (e.g.,
+# "/var/humio/0" and "/var/humio/1"). Setting this to something
+# like "/data/humio" would result in directories like
+# "/data/humio/0" being created. If you're on a multi-socket
+# system, make sure you read the comments located here:
+# https://github.com/humio/ansible-server/blob/0d33841d9ca56cac754a402666caccb366f84c4a/defaults/main.yml#L14-L40
+humio_data_path: "/var/humio"
+
+# NOTE: Humio logs are stored in a "logs" directory inside the data
+# directory specified above.
+
+
 
 ############################################
 #
@@ -33,3 +63,9 @@ humio_network_interface: enp0s3
 #
 kafka_version: 2.1.1
 kafka_scala_version: 2.12
+
+# The directory all Kafka data is stored at.
+kafka_data_log_dir: "/var/kafka/data"
+
+# The directory all Kafka service logs are stored at.
+kafka_log_dir: "/var/log/kafka"
