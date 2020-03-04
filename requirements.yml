@@ -1,0 +1,6 @@
+---
+- src: humio.zookeeper
+
+- src: humio.kafka
+
+- src: humio.server
